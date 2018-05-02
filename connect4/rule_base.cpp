@@ -94,6 +94,18 @@ int rule_base() {
 	int score[7] = { 0, };
 	if (int result = immediate_win(true)) return result - 1;
 	else if (result = immediate_win(false)) return result - 1;
+
+    for(int i=0;i<7;i++) {
+        if(len[i]<6) {
+            put_opposite(i);
+            int result = immediate_win(false);
+            deput(i);
+            if(result) {
+                return result-1;
+            }
+        }
+    }
+
 	int maxv = -1, ans = 0, sumv=0;
 	for (int i = 0;i < 7;i++) {
 		if (len[i] >= 7) continue;
