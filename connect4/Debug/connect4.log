@@ -1,2 +1,2 @@
-﻿  rule_base.cpp
-  connect4.vcxproj -> C:\Users\JahyunKim\Desktop\2018-1\인공지능\connect4\Debug\connect4.exe
+﻿  connect4_rulebase2.cpp
+LINK : fatal error LNK1168: C:\Users\JahyunKim\Desktop\Connect4\Debug\Connect4.exe을(를) 쓰기용으로 열 수 없습니다.

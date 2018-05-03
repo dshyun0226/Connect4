@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{B4FB3048-EB76-48D8-9F9B-E16EDFF8CDD5}</ProjectGuid>
-    <RootNamespace>connect4</RootNamespace>
+    <ProjectGuid>{2405D9C8-F176-4DDD-874F-D8651EEE222F}</ProjectGuid>
+    <RootNamespace>Connect4</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -118,11 +118,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="connect4.cpp" />
-    <ClCompile Include="rule_base.cpp" />
+    <ClCompile Include="connect4_game.cpp" />
+    <ClCompile Include="connect4_heuristic.cpp" />
+    <ClCompile Include="connect4_rulebase.cpp" />
+    <ClCompile Include="connect4_rulebase2.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="connect4.h" />
+    <ClInclude Include="connect4_game.h" />
+    <ClInclude Include="connect4_heuristic.h" />
+    <ClInclude Include="connect4_rulebase.h" />
+    <ClInclude Include="connect4_rulebase2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
