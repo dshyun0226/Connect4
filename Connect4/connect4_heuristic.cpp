@@ -162,6 +162,7 @@ int negamax_tree(int depth, int board[][10], int sign, int alpha, int beta, int 
 			best_value = value;
 			if (depth == MAXDEPTH) {
 				*best_x = x;
+				printf(".");
 			}
 		}
 		alpha = maxf(alpha, value);
@@ -176,6 +177,7 @@ int get_position_by_heuristic() {
 
 	int best_x, negamax_value;
 
+	printf("Processing.");
 	negamax_value = negamax_tree(MAXDEPTH, board, 1, -INFI, INFI, &best_x, 0, 0);
 
 	return best_x;
