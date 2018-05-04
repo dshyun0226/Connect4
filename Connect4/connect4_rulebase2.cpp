@@ -92,15 +92,33 @@ int reasonable_sum_connect(bool flag, int x) {
 
 int get_position_by_rulebase2() {
 	int score[10] = { 0, };
-	if (int result = immediate_win(true)) return result;
+
+	if (len[4] == 0) return 4;
+	else if (int result = immediate_win(true)) return result;
 	else if (result = immediate_win(false)) return result;
+		
 
 	int maxv = -1000000, ans = 0, sumv = 0;
+
+	for (int i = 1;i <= 7;i++) {
+		if (len[i] == 7) continue;
+		put_piece(i, false);
+		if (putable_both_side(i)) score[i] += 10000;
+		deput_piece(i);
+	}
+
+	for (int i = 1;i <= 7;i++) {
+		if (len[i] == 7) continue;
+		put_piece(i, false);
+		if (double_three(i)) score[i] += 10000;
+		deput_piece(i);
+	}
+
 	for (int i = 1;i <= 7;i++) {
 		if (len[i] >= 7) continue;
 
 		put_piece(i, true);
-		score[i] = get_winable_lines(true, i) + reasonable_sum_connect(true, i);
+		score[i] += get_winable_lines(true, i) + reasonable_sum_connect(true, i);
 		if (len[i] < 7) {
 			put_piece(i, false);
 			if (get_max_length_connected(i) >= 4) {

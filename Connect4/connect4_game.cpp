@@ -4,6 +4,7 @@
 #include<stdio.h>
 #include "connect4_heuristic.h"
 #include "connect4_rulebase2.h"
+#include "connect4_rulebase.h"
 #include "connect4_game.h"
 
 int board[10][10], len[10], log[50][2], turn = 1;
@@ -30,6 +31,66 @@ void put_piece(int x, bool num) {
 
 void deput_piece(int x) {
 	board[x][len[x]--] = 0;
+}
+
+bool putable_both_side(int x) {
+	for (int i = 0;i < 4;i++) {
+		bool flag = false;
+		int cnt = 1;
+		for (int j = -1;j >= -2;j--) {
+			int target_x = x + dx[i] * j, target_y = len[x] + dy[i] * j;
+			if (target_x < 1 || target_x > 7 || target_y < 1 || target_y > 7) break;
+			if (board[target_x][target_y] != board[x][len[x]]) {
+				if (board[target_x][target_y - 1] != 0 && board[target_x][target_y] == 0) flag = true;
+				else flag = false;
+				break;
+			}
+			cnt++;
+		}
+		for (int j = 1;j <= 2;j++) {
+			int target_x = x + dx[i] * j, target_y = len[x] + dy[i] * j;
+			if (target_x < 1 || target_x > 7 || target_y < 1 || target_y > 7) break;
+			if (board[target_x][target_y] != board[x][len[x]]) {
+				if (board[target_x][target_y - 1] != 0 && board[target_x][target_y] == 0) flag = flag;
+				else flag = false;
+				break;
+			}
+			cnt++;
+		}
+		if (flag && cnt >= 3) return true;
+	}
+	return false;
+}
+
+bool double_three(int x) {
+	int cnt1 = 0;
+	for (int i = 0;i < 4;i++) {
+		bool flag = false;
+		int cnt = 1;
+		for (int j = -1;j >= -2;j--) {
+			int target_x = x + dx[i] * j, target_y = len[x] + dy[i] * j;
+			if (target_x < 1 || target_x > 7 || target_y < 1 || target_y > 7) break;
+			if (board[target_x][target_y] != board[x][len[x]]) {
+				if (board[target_x][target_y - 1] != 0 && board[target_x][target_y] == 0) flag = true;
+				else flag = false;
+				break;
+			}
+			cnt++;
+		}
+		for (int j = 1;j <= 2;j++) {
+			int target_x = x + dx[i] * j, target_y = len[x] + dy[i] * j;
+			if (target_x < 1 || target_x > 7 || target_y < 1 || target_y > 7) break;
+			if (board[target_x][target_y] != board[x][len[x]]) {
+				if (board[target_x][target_y - 1] != 0 && board[target_x][target_y] == 0) flag = true;
+				else flag = flag;
+				break;
+			}
+			cnt++;
+		}
+		if (flag && cnt >= 3) cnt1++;
+	}
+	if (cnt1 >= 2) return true;
+	return false;
 }
 
 int get_unlimit_length_connected(int x, int i) {
@@ -102,11 +163,19 @@ int get_max_length_connected(int x) {
 
 void game_over(int winner) {
 
+
 	printf("게임 종료\n\n");
 	print_board();
 
 	if (winner == 1) printf("○ 승리!");
 	else printf("● 승리!");
+
+	Sleep(3000);
+
+
+
+	freopen("result.txt", "w", stdout);
+	for (int i = 0;i < turn;i++) printf("%d %d\n", log[i][0], log[i][1]);
 }
 
 int main() {
@@ -175,7 +244,7 @@ int main() {
 		scanf("%d", &algorithm);
 
 
-		position = get_position_by_rulebase2();
+		position = get_position_by_rulebase();
 		// if (algorithm == 1) position = get_position_by_heuristic();
 		// else position = get_position_by_rulebase();
 
@@ -190,7 +259,7 @@ int main() {
 		/* Discriminate that the game is end */
 
 		if (get_max_length_connected(position) >= 4) {
-			game_over(2);
+			game_over(1);
 			return 0;
 		}
 
@@ -199,5 +268,5 @@ int main() {
 		printf("마지막 놓은 위치 : %d\n\n", position);
 
 	}
-	Sleep(3000);
+	return 0;
 }

@@ -3,7 +3,7 @@
 
 int get_position_by_rulebase() {
 	/* put a piece in the middle when my first turn (But it's not the first turn of game)*/
-	if (turn == 2) return 4;
+	if (len[4] == 0) return 4;
 
 	/* if I can win the game end after putting a piece in column i, put it in */
 	for (int i = 1;i <= 7;i++) {
@@ -28,6 +28,21 @@ int get_position_by_rulebase() {
 	}
 
 	int score[10] = { 0, }, score1[10] = { 0, }, score2[10] = { 0, };
+
+	for (int i = 1;i <= 7;i++) {
+		if (len[i] == 7) continue;
+		put_piece(i, false);
+		if (putable_both_side(i)) score[i] += 10000;
+		deput_piece(i);
+	}
+
+	for (int i = 1;i <= 7;i++) {
+		if (len[i] == 7) continue;
+		put_piece(i, false);
+		if (double_three(i)) score[i] += 10000;
+		deput_piece(i);
+	}
+
 	for (int i = 1;i <= 7;i++) {
 		if (len[i] == 7) continue;
 		put_piece(i, true);
