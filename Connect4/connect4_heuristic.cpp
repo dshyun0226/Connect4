@@ -8,6 +8,7 @@ int maxf(int x, int y) {
 	else return y;
 }
 
+// returns the number of possible winning lines by value array. The value array is indexed by how many player's stones already exist in the line.
 void winning_count(int board[][10], int player, int value[]) {
 
 	int cnt, flag;
@@ -15,7 +16,7 @@ void winning_count(int board[][10], int player, int value[]) {
 
 	for (i = 1; i <= 7; i++) {
 		for (j = 1; j <= 7; j++) {
-			//가로
+			//horizontal
 			flag = cnt = 0;
 			for (l = j; l > j - 4 && j > 3; l--) {
 				if (board[l][i] != player && board[l][i] != 0) {
@@ -27,7 +28,7 @@ void winning_count(int board[][10], int player, int value[]) {
 				}
 			}
 			if (flag == 0) value[cnt]++;
-			//세로
+			//vertical
 			flag = cnt = 0;
 			for (l = i; l > i - 4 && i > 3; l--) {
 				if (board[j][l] != player && board[j][l] != 0) {
@@ -39,7 +40,7 @@ void winning_count(int board[][10], int player, int value[]) {
 				}
 			}
 			if (flag == 0) value[cnt]++;
-			//오른쪽 아래
+			//right up diagnal
 			flag = cnt = 0;
 			for (l = 0; l < 4 && i > 3 && j < 5; l++) {
 				if (board[j + l][i - l] != player && board[j + l][i - l] != 0) {
@@ -51,7 +52,7 @@ void winning_count(int board[][10], int player, int value[]) {
 				}
 			}
 			if (flag == 0) value[cnt]++;
-			//왼쪽 아래
+			//left up diagnal
 			flag = cnt = 0;
 			for (l = 0; l < 4 && i > 3 && j > 3; l++) {
 				if (board[j - l][i - l] != player && board[j - l][i - l] != 0) {
@@ -67,10 +68,12 @@ void winning_count(int board[][10], int player, int value[]) {
 	}
 }
 
+// returns player number if he wins the game
 int win_check(int x, int y, int board[][10]) {
 
 	int i, j, min;
 
+	//horizontal
 	j = -maxf(-7, -x - 3);
 	for (i = maxf(1, x - 3); i <= j; i++) {
 		if (board[i][y] * board[i + 1][y] * board[i + 2][y] * board[i + 3][y] == 1) {
@@ -80,6 +83,7 @@ int win_check(int x, int y, int board[][10]) {
 			return 2;
 		}
 	}
+	//vertical
 	j = -maxf(-7, -y - 3);
 	for (i = maxf(1, y - 3); i <= j; i++) {
 		if (board[x][i] * board[x][i + 1] * board[x][i + 2] * board[x][i + 3] == 1) {
@@ -89,7 +93,7 @@ int win_check(int x, int y, int board[][10]) {
 			return 2;
 		}
 	}
-	//오른위
+	//right up diagnal
 	min = -maxf(-x, -y);
 	for (i = maxf(-3, 1 - min); x + i + 3 < 8 && y + i + 3 < 8; i++) {
 		if (board[x + i][y + i] * board[x + i + 1][y + i + 1] * board[x + i + 2][y + i + 2] * board[x + i + 3][y + i + 3] == 1) {
@@ -99,6 +103,7 @@ int win_check(int x, int y, int board[][10]) {
 			return 2;
 		}
 	}
+	//left up diagnal
 	min = -maxf(-(8 - x), -y);
 	for (i = maxf(-3, 1 - min); x - i - 3 > 0 && y + i + 3 < 8; i++) {
 		if (board[x - i][y + i] * board[x - i - 1][y + i + 1] * board[x - i - 2][y + i + 2] * board[x - i - 3][y + i + 3] == 1) {
@@ -111,7 +116,8 @@ int win_check(int x, int y, int board[][10]) {
 	return 0;
 }
 
-int negamax_tree(int depth, int board[][10], int sign, int alpha, int beta, int *best_x, int put_x, int put_y) {
+// negamax alpha beta prunning algorithm
+int negamax_solver(int depth, int board[][10], int sign, int alpha, int beta, int *best_x, int put_x, int put_y) {
 	int immi_board[10][10] = { 0 };
 	int top_x[8] = { 0 };
 	int top_y[8] = { 0 };
@@ -156,7 +162,7 @@ int negamax_tree(int depth, int board[][10], int sign, int alpha, int beta, int 
 		y = top_y[i];
 		if (sign == 1) immi_board[x][y] = 1;
 		else immi_board[x][y] = 2;
-		value = -negamax_tree(depth - 1, immi_board, -sign, -beta, -alpha, best_x, x, y);
+		value = -negamax_solver(depth - 1, immi_board, -sign, -beta, -alpha, best_x, x, y);
 		immi_board[x][y] = 0;
 		if (best_value < value) {
 			best_value = value;
@@ -173,12 +179,13 @@ int negamax_tree(int depth, int board[][10], int sign, int alpha, int beta, int 
 	
 }
 
+// returns which line I will put a stone in
 int get_position_by_heuristic() {
 
 	int best_x, negamax_value;
 
 	printf("Processing.");
-	negamax_value = negamax_tree(MAXDEPTH, board, 1, -INFI, INFI, &best_x, 0, 0);
+	negamax_value = negamax_solver(MAXDEPTH, board, 1, -INFI, INFI, &best_x, 0, 0);
 
 	return best_x;
 }
