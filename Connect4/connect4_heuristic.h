@@ -1,4 +1,4 @@
-#define MAXDEPTH 13
+#define MAXDEPTH 12
 #define INFI 100000000
 
 int maxf(int x, int y);
