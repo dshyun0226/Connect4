@@ -6,7 +6,7 @@ void put_piece(int, bool);
 
 void deput_piece(int);
 
-bool putable_both_side(int);
+int putable_both_side(int);
 
 bool double_three(int);
 
