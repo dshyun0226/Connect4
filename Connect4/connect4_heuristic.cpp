@@ -139,13 +139,6 @@ int negamax_solver(int depth, int board[][10], int sign, int alpha, int beta, in
 		}
 	}
 
-	if (depth == 0) {
-		winning_count(immi_board, 1, my_value);
-		winning_count(immi_board, 2, oppo_value);
-		return sign * (my_value[0] + my_value[1] * 5 + my_value[2] * 10 + my_value[3] * 100
-			- oppo_value[0] - oppo_value[1] * 3 - oppo_value[2] * 7 - oppo_value[3] * 100);
-	}
-
 	if (put_x != 0 && put_y != 0) {
 		winner = win_check(put_x, put_y, board);
 		if (winner == 1) {
@@ -154,6 +147,13 @@ int negamax_solver(int depth, int board[][10], int sign, int alpha, int beta, in
 		else if (winner == 2) {
 			return sign * -INFI;
 		}
+	}
+	
+	if (depth == 0) {
+		winning_count(immi_board, 1, my_value);
+		winning_count(immi_board, 2, oppo_value);
+		return sign * (my_value[0] + my_value[1] * 13 + my_value[2] * 37 + my_value[3] * 127
+			- oppo_value[0] - oppo_value[1] * 13 - oppo_value[2] * 37 - oppo_value[3] * 127);
 	}
 
 	best_value = -INFI;
