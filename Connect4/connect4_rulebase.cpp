@@ -32,14 +32,14 @@ int get_position_by_rulebase() {
 	for (int i = 1;i <= 7;i++) {
 		if (len[i] == 7) continue;
 		put_piece(i, false);
-		if (putable_both_side(i)) score[i] += 10000;
+		if (int result = putable_both_side(i)) score[i] += 10000 * result;
 		deput_piece(i);
 	}
 
 	for (int i = 1;i <= 7;i++) {
 		if (len[i] == 7) continue;
 		put_piece(i, false);
-		if (double_three(i)) score[i] += 10000;
+		if (double_three(i)) score[i] += 15000;
 		deput_piece(i);
 	}
 

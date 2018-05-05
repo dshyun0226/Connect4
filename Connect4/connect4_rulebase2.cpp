@@ -84,7 +84,7 @@ int reasonable_sum_connect(bool flag, int x) {
 				else if (!flag && board[target_x][target_y] != 2) break;
 				cnt1++;
 			}
-			res += cnt > 4 ? 4 : cnt;
+			res += cnt1 > 4 ? 4 : cnt1;
 		}
 	}
 	return res;
@@ -103,14 +103,14 @@ int get_position_by_rulebase2() {
 	for (int i = 1;i <= 7;i++) {
 		if (len[i] == 7) continue;
 		put_piece(i, false);
-		if (putable_both_side(i)) score[i] += 10000;
+		if (int result = putable_both_side(i)) score[i] += 10000 * result;
 		deput_piece(i);
 	}
 
 	for (int i = 1;i <= 7;i++) {
 		if (len[i] == 7) continue;
 		put_piece(i, false);
-		if (double_three(i)) score[i] += 10000;
+		if (double_three(i)) score[i] += 15000;
 		deput_piece(i);
 	}
 

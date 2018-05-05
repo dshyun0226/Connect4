@@ -33,7 +33,8 @@ void deput_piece(int x) {
 	board[x][len[x]--] = 0;
 }
 
-bool putable_both_side(int x) {
+int putable_both_side(int x) {
+	int cnt1 = 0;
 	for (int i = 0;i < 4;i++) {
 		bool flag = false;
 		int cnt = 1;
@@ -57,9 +58,9 @@ bool putable_both_side(int x) {
 			}
 			cnt++;
 		}
-		if (flag && cnt >= 3) return true;
+		if (flag && cnt >= 3) cnt1++;
 	}
-	return false;
+	return cnt1;
 }
 
 bool double_three(int x) {
@@ -244,9 +245,9 @@ int main() {
 		scanf("%d", &algorithm);
 
 
-		position = get_position_by_rulebase();
-		// if (algorithm == 1) position = get_position_by_heuristic();
-		// else position = get_position_by_rulebase();
+		// position = get_position_by_rulebase();
+		if (algorithm == 1) position = get_position_by_heuristic();
+		else position = get_position_by_rulebase();
 
 		put_piece(position, true);
 		system("cls");
