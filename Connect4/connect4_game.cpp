@@ -191,7 +191,7 @@ int main() {
 		printf("○ 나의 돌을 놓을 알고리즘 (Heuristic: 1, RuleBase: 2) : ");
 		scanf("%d", &placeholder);
 
-		/* 선공이면 무조건 5에 놓고 시작함 */
+		/* 선공이면 무조건 5에 놓고 시작함 */	
 
 		put_piece(5, true);
 		system("cls");
